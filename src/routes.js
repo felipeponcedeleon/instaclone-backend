@@ -5,6 +5,9 @@ const routes = Router();
 const HomeController = require('./controllers/HomeControllers');
 const UserController = require('./controllers/UserControllers');
 
+//Se llama al archivo con la ruta de validación del modelo User
+const ValidationsUser = require('./validations/validationUser');
+
 //HOME
 routes.get('/', (req, res) => {
     res.json({
@@ -13,7 +16,9 @@ routes.get('/', (req, res) => {
 })
 
 //USUARIOS
-routes.post('/users', UserController.store);
+//Se ocupa ValidatioUser como middleware llamando a la ruta de validación
+//withPassword
+routes.post('/users', ValidationsUser.withPassword, UserController.store);
 
 
 module.exports = routes;
