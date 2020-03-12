@@ -18,6 +18,7 @@ routes.get('/', HomeController.home)
 //withPassword
 routes.post('/users', ValidationsUser.withPassword, UserController.store);
 
+//Mandamos el nombre de usuario por url para su consulta
 routes.get('/users/:username', authMiddleware, UserController.show);
 
 module.exports = routes;

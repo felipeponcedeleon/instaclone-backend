@@ -12,9 +12,22 @@ const jwt = require('jsonwebtoken');
 module.exports = {
 
     async show (req, res) {
-        res.json({
-            message: "Todo bien!"
+        //Tomamos el parametro de url (username)
+        const { username } = req.params;
+
+        //Buscamos el usuario en la DB excluyendo los campos password y updatedAt
+        const user = await User.findOne({
+            where: { username },
+            attributes: { exclude: ["password","updatedAt"] }
         });
+
+        //Si el usuario no existe entonces mandamos de vuelta un error
+        if(!user)
+            return res.status(404).json({
+                message: "Usuario no encontrado"
+            })
+
+        return res.json(user);
     },
 
 
