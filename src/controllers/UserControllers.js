@@ -1,3 +1,4 @@
+const User = require('../models/User');
 
 module.exports = {
 
@@ -5,9 +6,13 @@ module.exports = {
 
         const { name, email, username, password } = req.body;
 
-        res.json({
-            mensaje: 'Desde Store'
-        });
+        const user = await User.create({
+            name,
+            email,
+            username,
+            password
+        })
+        res.json(user);
     }
 
 
