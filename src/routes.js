@@ -9,11 +9,7 @@ const UserController = require('./controllers/UserControllers');
 const ValidationsUser = require('./validations/validationUser');
 
 //HOME
-routes.get('/', (req, res) => {
-    res.json({
-        mensaje: 'Desde Home!'
-    });
-})
+routes.get('/', HomeController.home)
 
 //USUARIOS
 //Se ocupa ValidatioUser como middleware llamando a la ruta de validación
