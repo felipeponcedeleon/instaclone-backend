@@ -7,6 +7,8 @@ const User = require('../models/User');
 
 const passwordHash = require('./utils/passwordHash');
 
+const jwt = require('jsonwebtoken');
+
 module.exports = {
 
     async store (req, res) {
@@ -44,8 +46,21 @@ module.exports = {
             email,
             username,
             password: passwordListo
-        })
-        res.json(user);
+        });
+
+        //JWT
+        //Creamos el cuerpo del token
+        const payload = {id: user.id, username: user.username};
+
+        //Encriptando en jwt
+        jwt.sign(payload, process.env.SIGNATURE_TOKEN, 
+            { expiresIn: 86400 },
+            (error, token) => {
+                if(error) throw error;
+                return res.json({token});
+            }
+        )
+
     }
 
 
