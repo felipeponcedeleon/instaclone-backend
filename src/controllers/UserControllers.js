@@ -11,6 +11,13 @@ const jwt = require('jsonwebtoken');
 
 module.exports = {
 
+    async show (req, res) {
+        res.json({
+            message: "Todo bien!"
+        });
+    },
+
+
     async store (req, res) {
 
         const { name, email, username, password } = req.body;
@@ -62,13 +69,6 @@ module.exports = {
         )
 
     }
-
-
-
-
-
-
-
 
 
 }

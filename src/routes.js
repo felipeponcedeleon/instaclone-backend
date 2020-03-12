@@ -2,6 +2,8 @@ const Router = require('express');
 
 const routes = Router();
 
+const authMiddleware = require('./middleware/auth');
+
 const HomeController = require('./controllers/HomeControllers');
 const UserController = require('./controllers/UserControllers');
 
@@ -16,5 +18,6 @@ routes.get('/', HomeController.home)
 //withPassword
 routes.post('/users', ValidationsUser.withPassword, UserController.store);
 
+routes.get('/users/:username', authMiddleware, UserController.show);
 
 module.exports = routes;

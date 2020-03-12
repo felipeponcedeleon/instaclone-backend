@@ -1,4 +1,4 @@
-APP_URL=http://192.198.0.0:5000
+APP_URL=http://0.0.0.0:5000
 PORT=
 
 DB_HOST=localhost
