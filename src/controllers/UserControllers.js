@@ -3,6 +3,10 @@ const Sequelize = require('sequelize');
 //Llamamos al resultado de la validación
 const { validationResult }  = require('express-validator');
 
+const fs = require('fs');
+const path = require('path');
+const { promisify } = require('util');
+
 const User = require('../models/User');
 
 const passwordHash = require('./utils/passwordHash');
@@ -163,7 +167,28 @@ module.exports = {
         return res.json({
             message: "Password actualizado"
         })
-    }
+    },
 
+    async updateAvatar(req, res) {
+        const { filename: key } = req.file;
+        
+        promisify(fs.unlink)(
+            path.resolve(__dirname, '..', '..', 'tmp', 'uploads', req.query.key)
+        );
+
+        const url = `${process.env.APP_URL}/files/${key}`;
+        
+        await User.update(
+            {
+                key,
+                avatar_url: url
+            },
+            {
+                where: { id: req.userId }
+            }
+        );
+
+        return res.json({ avatar_url: url });
+    }
 
 }

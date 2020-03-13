@@ -2,6 +2,9 @@ const Router = require('express');
 
 const routes = Router();
 
+const multer = require('multer');
+const multerConfig = require('./config/multer');
+
 const authMiddleware = require('./middleware/auth');
 
 const HomeController = require('./controllers/HomeControllers');
@@ -26,5 +29,8 @@ routes.put('/users', authMiddleware, ValidationsUser.withoutPassword, UserContro
 
 //Cambiar password de la cuenta (perfil)
 routes.put('/password-update', authMiddleware, ValidationsUser.password, UserController.updatePassword);
+
+//Actualizar avatar de la cuenta
+routes.put('/avatar', authMiddleware, multer(multerConfig).single('file'), UserController.updateAvatar);
 
 module.exports = routes;
