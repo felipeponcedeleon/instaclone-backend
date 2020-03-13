@@ -21,4 +21,10 @@ routes.post('/users', ValidationsUser.withPassword, UserController.store);
 //Mandamos el nombre de usuario por url para su consulta
 routes.get('/users/:username', authMiddleware, UserController.show);
 
+//Actualizar información de la cuenta (perfil)
+routes.put('/users', authMiddleware, ValidationsUser.withoutPassword, UserController.update);
+
+//Cambiar password de la cuenta (perfil)
+routes.put('/password-update', authMiddleware, ValidationsUser.password, UserController.updatePassword);
+
 module.exports = routes;
