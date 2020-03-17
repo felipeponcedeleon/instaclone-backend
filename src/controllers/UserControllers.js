@@ -170,14 +170,21 @@ module.exports = {
     },
 
     async updateAvatar(req, res) {
+        //renombramos el campo filename por key
         const { filename: key } = req.file;
+
+        //res.json(req.query);
         
         promisify(fs.unlink)(
-            path.resolve(__dirname, '..', '..', 'tmp', 'uploads', req.query.key)
+            path.resolve(__dirname, "..", "..", "tmp", "uploads", req.query.key)
         );
 
+        //pasamos filename (key) a la url
         const url = `${process.env.APP_URL}/files/${key}`;
         
+        //guardamos el key(nombre) de la imagen que sirve de referencia
+        //para luego actualizar la imagen de avatar sin crear una
+        //nueva en el servidor
         await User.update(
             {
                 key,

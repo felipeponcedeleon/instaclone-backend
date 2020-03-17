@@ -31,6 +31,6 @@ routes.put('/users', authMiddleware, ValidationsUser.withoutPassword, UserContro
 routes.put('/password-update', authMiddleware, ValidationsUser.password, UserController.updatePassword);
 
 //Actualizar avatar de la cuenta
-routes.put('/avatar', authMiddleware, multer(multerConfig).single('file'), UserController.updateAvatar);
+routes.put('/avatar', authMiddleware, multer(multerConfig).single("file"), UserController.updateAvatar);
 
 module.exports = routes;
