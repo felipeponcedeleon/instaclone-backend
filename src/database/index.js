@@ -5,6 +5,7 @@ const ConfigDB = require('../config/database');
 const User = require('../models/User');
 const Photo = require('../models/Photo');
 const Like = require('../models/Like');
+const Comment = require('../models/Comment');
 
 const connection = new Sequelize(ConfigDB);
 
@@ -12,10 +13,12 @@ const connection = new Sequelize(ConfigDB);
 User.init(connection);
 Photo.init(connection);
 Like.init(connection);
+Comment.init(connection);
 
 //Asociaciones
 User.associate(connection.models);
 Photo.associate(connection.models);
 Like.associate(connection.models);
+Comment.associate(connection.models);
 
 module.exports = connection;
