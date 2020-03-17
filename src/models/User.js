@@ -18,7 +18,7 @@ class User extends Model {
         );
     }
 
-    static associations(models){
+    static associate(models){
         this.hasMany(models.Photo, { 
             foreignKey: "user_id", as: "photoUploads"
          })

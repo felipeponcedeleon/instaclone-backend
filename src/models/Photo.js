@@ -14,7 +14,7 @@ class Photo extends Model {
         );
     }
 
-    static associations(models){
+    static associate(models){
         this.belongsTo(models.User, {
             foreignKey: "user_id", as: "uploadedBy"
         })

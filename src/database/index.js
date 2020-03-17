@@ -4,15 +4,18 @@ const ConfigDB = require('../config/database');
 //Importar modelo para carga
 const User = require('../models/User');
 const Photo = require('../models/Photo');
+const Like = require('../models/Like');
 
 const connection = new Sequelize(ConfigDB);
 
 //Inicializar los modelos
 User.init(connection);
 Photo.init(connection);
+Like.init(connection);
 
 //Asociaciones
-User.associations(connection.models);
-Photo.associations(connection.models);
+User.associate(connection.models);
+Photo.associate(connection.models);
+Like.associate(connection.models);
 
 module.exports = connection;
