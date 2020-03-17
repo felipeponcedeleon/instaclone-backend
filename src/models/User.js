@@ -20,8 +20,31 @@ class User extends Model {
 
     static associate(models){
         this.hasMany(models.Photo, { 
-            foreignKey: "user_id", as: "photoUploads"
-         })
+            foreignKey: "user_id", 
+            as: "photoUploads"
+        });
+
+        this.belongsToMany(models.Like, { 
+            foreignKey: "user_id", 
+            through: "likes",
+            as: "userLike"
+        });
+
+        this.hasMany(models.Comment, { 
+            foreignKey: "user_id", 
+            as: "getComments"
+        });
+
+        this.hasMany(models.Follow, { 
+            foreignKey: "user_from", 
+            as: "getFollows"
+        });
+
+        this.hasMany(models.Follow, { 
+            foreignKey: "user_to", 
+            as: "getFollowers"
+        });
+
     }
 }
 
