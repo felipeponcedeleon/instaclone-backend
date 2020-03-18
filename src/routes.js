@@ -7,9 +7,11 @@ const multerConfig = require('./config/multer');
 
 const authMiddleware = require('./middleware/auth');
 
+const AuthController = require('./controllers/AuthController');
 const HomeController = require('./controllers/HomeControllers');
 const UserController = require('./controllers/UserControllers');
-const AuthController = require('./controllers/AuthController');
+const PhotoController = require('./controllers/PhotoController');
+
 
 //Se llama al archivo con la ruta de validación del modelo User
 const ValidationsUser = require('./validations/validationUser');
@@ -41,5 +43,15 @@ routes.put('/password-update', authMiddleware, ValidationsUser.password, UserCon
 
 //Actualizar avatar de la cuenta
 routes.put('/avatar', authMiddleware, multer(multerConfig).single("file"), UserController.updateAvatar);
+
+
+/***** Photos *****/
+//Crear (subir) foto
+routes.post('/photos', authMiddleware, multer(multerConfig).single('file'), PhotoController.store);
+
+//mostrar la/las foto/s
+routes.get('/photos/:id', authMiddleware, PhotoController.show);
+
+
 
 module.exports = routes;

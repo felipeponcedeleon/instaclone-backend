@@ -16,10 +16,20 @@ class Photo extends Model {
 
     static associate(models){
         this.belongsTo(models.User, {
-            foreignKey: "user_id", as: "uploadedBy"
-        })
+            foreignKey: "user_id",
+            as: "uploadedBy"
+        });
+        this.hasMany(models.Like, {
+            foreignKey: "photo_id", 
+            as: "getLikes"
+        });
+        this.hasMany(models.Comment, {
+            foreignKey: "user_id", 
+            as: "getComments"
+        });
     }
 }
+
 
 module.exports = Photo;
 
