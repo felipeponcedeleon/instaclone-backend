@@ -1,11 +1,64 @@
 
+const Sequelize = require("sequelize");
+
 const Photo = require('../models/Photo');
+const Like = require('../models/Like');
 
 module.exports = {
 
     async show (req, res) {
         const { id } = req.params;
-         
+
+        const photo = await Photo.findByPk(id, {
+
+            attributes: {
+                exclude: ["updatedAt"],
+                include: [[Sequelize.fn("COUNT", Sequelize.col("getLikes")), "likesCount"]]
+            },
+            include: [
+                {
+                    association: "uploadedBy",
+                    attributes: ["username", "avatar_url"]
+                },
+                {
+                    association: "getLikes",
+                    attributes: []
+                },
+                {
+                    association: "getComments",
+                    attributes: ["id", "user_id", "body", "createdAt"],
+                    include: {
+                        association: "postedBy",
+                        attributes: ["username", "avatar_url"]
+                    }
+                }
+            ],
+            group: [
+                "uploadedBy.id",
+                "Photo.id",
+                "getComments.id",
+                "getComments->postedBy.id"
+            ]
+
+        });
+
+        if (!photo) return res.status(400).json({
+            message: "Foto no encontrada"
+        });
+
+        let isAutor = false;
+        if (req.userId == photo.user_id) isAutor = true;
+        
+        let isLiked = false;
+        let like = await Like.findOne({
+            where: {
+                [Sequelize.Op.and]: [{photo_id: photo.id}, {user_id: req.userId}]
+            }
+        });
+        if (like) isLiked = true;
+
+        return res.json({ photo, isAutor, isLiked });
+
     },
 
 
