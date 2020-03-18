@@ -9,9 +9,18 @@ const authMiddleware = require('./middleware/auth');
 
 const HomeController = require('./controllers/HomeControllers');
 const UserController = require('./controllers/UserControllers');
+const AuthController = require('./controllers/AuthController');
 
 //Se llama al archivo con la ruta de validación del modelo User
 const ValidationsUser = require('./validations/validationUser');
+
+const ValidationsAuth = require('./validations/validationAuth');
+
+
+/***** Login *****/
+routes.post('/auth', ValidationsAuth.login, AuthController.login);
+
+
 
 //HOME
 routes.get('/', HomeController.home)

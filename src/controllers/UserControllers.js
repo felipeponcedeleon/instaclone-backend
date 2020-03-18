@@ -13,10 +13,12 @@ const passwordHash = require('./utils/passwordHash');
 
 const passwordCompare = require('./utils/passwordCompare');
 
-const jwt = require('jsonwebtoken');
+//Generar el token 
+const generateToken = require('./utils/generateToken');
 
 module.exports = {
 
+    //Mostrar Usuario
     async show (req, res) {
         //Tomamos el parametro de url (username)
         const { username } = req.params;
@@ -36,7 +38,7 @@ module.exports = {
         return res.json(user);
     },
 
-
+    //Crear Usuario
     async store (req, res) {
 
         const { name, email, username, password } = req.body;
@@ -75,19 +77,13 @@ module.exports = {
         });
 
         //JWT
-        //Creamos el cuerpo del token
-        const payload = {id: user.id, username: user.username};
+        const payload = { id: user.id, username: user.username };
+        const token = generateToken(payload);
 
-        //Encriptando en jwt
-        jwt.sign(payload, process.env.SIGNATURE_TOKEN, 
-            { expiresIn: 86400 },
-            (error, token) => {
-                if(error) throw error;
-                return res.json({token});
-            }
-        )
+        return res.json({ token });
     },
 
+    //Actualizar Usuario
     async update(req, res) {
         const { name, email, username, phone, bio } = req.body;
 
