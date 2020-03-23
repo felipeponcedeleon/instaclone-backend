@@ -52,6 +52,7 @@ routes.post('/photos', authMiddleware, multer(multerConfig).single('file'), Phot
 //mostrar la/las foto/s
 routes.get('/photos/:id', authMiddleware, PhotoController.show);
 
+routes.delete('/photos/:id', authMiddleware, PhotoController.destroy)
 
 
 module.exports = routes;

@@ -1,3 +1,6 @@
+const fs = require('fs');
+const path = require('path');
+const { promisify } = require('util');
 
 const Sequelize = require("sequelize");
 
@@ -114,6 +117,28 @@ module.exports = {
 
         return res.json({ isAutor, isLiked, photo });
 
+    },
+
+    async destroy(req, res) {
+        const { id } = req.params;
+        const { key } = req.query;
+
+        const photo = await Photo.findByPk(id);
+        if(!photo) return res.status(400).json({
+            message: "La foto no existe"
+        });
+
+        if (photo.user_id !== req.userId) return res.status(401).json({
+            message: "No estás autorizado para realizar esta acción"
+        });
+
+        promisify(fs.unlink)(path.resolve(__dirname, "..", "..", "tmp", "uploads", key));
+
+        await photo.destroy();
+
+        return res.send();
+
     }
+
 
 }
