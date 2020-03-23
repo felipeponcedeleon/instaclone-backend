@@ -11,6 +11,7 @@ const AuthController = require('./controllers/AuthController');
 const HomeController = require('./controllers/HomeControllers');
 const UserController = require('./controllers/UserControllers');
 const PhotoController = require('./controllers/PhotoController');
+const LikeController = require('./controllers/LikeController');
 
 
 //Se llama al archivo con la ruta de validación del modelo User
@@ -52,7 +53,10 @@ routes.post('/photos', authMiddleware, multer(multerConfig).single('file'), Phot
 //mostrar la/las foto/s
 routes.get('/photos/:id', authMiddleware, PhotoController.show);
 
-routes.delete('/photos/:id', authMiddleware, PhotoController.destroy)
+routes.delete('/photos/:id', authMiddleware, PhotoController.destroy);
 
+
+/***** Likes *****/
+routes.post('/likes/:photo', authMiddleware, LikeController.store);
 
 module.exports = routes;
