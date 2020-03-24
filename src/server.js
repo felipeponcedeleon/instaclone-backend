@@ -7,6 +7,7 @@ const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
 const photoRoutes = require('./routes/photoRoutes');
 const likeRoutes = require('./routes/likeRoutes');
+const commentRoutes = require('./routes/commentRoutes');
 
 const routes = require('./routes');
 
@@ -26,6 +27,7 @@ app.use('/auth', authRoutes);
 app.use('/users', userRoutes);
 app.use('/photos', photoRoutes);
 app.use('/likes', likeRoutes);
+app.use('/comments', commentRoutes);
 app.use(routes);
 
 //Fijamos en que puerto va a trabajar el servidor
